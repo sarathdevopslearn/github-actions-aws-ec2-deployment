@@ -43,3 +43,21 @@ jobs:
       - name: Push Docker Image
         run: |
           docker push sarathdevopslearn/github-actions-demo:latest
+
+                - name: Deploy to AWS EC2
+           uses: appleboy/ssh-action@v1.2.0
+           with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            docker pull sarathdevopslearn/github-actions-demo:latest
+
+            docker stop github-actions-demo || true
+            docker rm github-actions-demo || true
+
+            docker run -d \
+              --name github-actions-demo \
+              --restart always \
+              -p 80:5000 \
+              sarathdevopslearn/github-actions-demo:latest
