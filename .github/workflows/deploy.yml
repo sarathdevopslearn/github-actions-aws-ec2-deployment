@@ -10,7 +10,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-
       - name: Checkout Repository
         uses: actions/checkout@v4
 
@@ -44,9 +43,9 @@ jobs:
         run: |
           docker push sarathdevopslearn/github-actions-demo:latest
 
-                - name: Deploy to AWS EC2
-           uses: appleboy/ssh-action@v1.2.0
-           with:
+      - name: Deploy to AWS EC2
+        uses: appleboy/ssh-action@v1.2.0
+        with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
